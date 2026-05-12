@@ -1,0 +1,50 @@
+// ============================================================
+// DAX MEASURES — Dashboard 3 : Analyse Géographique
+// Colonnes dispo : ville, quartier, quartier_known,
+//                 region_label, is_grande_ville
+// ============================================================
+
+// ── Rang des villes par prix moyen (DESC)
+Rang Ville par Prix =
+RANKX(
+    ALL(v_annonces_full[ville]),
+    [Prix Moyen],
+    ,
+    DESC,
+    DENSE
+)
+
+// ── Part de marché par ville (% du total annonces)
+Part Marché Ville =
+DIVIDE(
+    [Total Annonces],
+    CALCULATE([Total Annonces], ALL(v_annonces_full[ville]))
+)
+
+// ── Annonces dans les grandes villes uniquement
+Annonces Grandes Villes =
+CALCULATE(
+    [Total Annonces],
+    v_annonces_full[is_grande_ville] = TRUE
+)
+
+// ── Prix moyen par région
+Prix Moyen par Region =
+CALCULATE(
+    AVERAGE(v_annonces_full[prix]),
+    ALLEXCEPT(v_annonces_full, v_annonces_full[region_label])
+)
+
+// ── Prix moyen par quartier (quartiers connus seulement)
+Prix Moyen Quartier =
+CALCULATE(
+    AVERAGE(v_annonces_full[prix]),
+    v_annonces_full[quartier_known] = TRUE
+)
+
+// ── Top ville (nom)
+Top Ville =
+FIRSTNONBLANK(
+    TOPN(1, ALL(v_annonces_full[ville]), [Total Annonces], DESC),
+    1
+)

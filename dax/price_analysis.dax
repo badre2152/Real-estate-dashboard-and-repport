@@ -1,0 +1,61 @@
+// ============================================================
+// DAX MEASURES — Dashboard 2 : Analyse des Prix
+// ============================================================
+
+// ── Prix moyen par ville
+Prix Moyen par Ville =
+CALCULATE(
+    AVERAGE(v_annonces_full[prix]),
+    ALLEXCEPT(v_annonces_full, v_annonces_full[ville])
+)
+
+// ── Écart prix vs moyenne nationale
+Écart vs Marché =
+[Prix Moyen] - CALCULATE([Prix Moyen], ALL(v_annonces_full[ville]))
+
+// ── % annonces par categorie_prix
+// Catégories réelles : Très Bas | Bas | Moyen | Élevé | Luxe
+
+% Très Bas =
+DIVIDE(
+    CALCULATE([Total Annonces], v_annonces_full[categorie_prix] = "Très Bas"),
+    [Total Annonces]
+)
+
+% Bas =
+DIVIDE(
+    CALCULATE([Total Annonces], v_annonces_full[categorie_prix] = "Bas"),
+    [Total Annonces]
+)
+
+% Moyen =
+DIVIDE(
+    CALCULATE([Total Annonces], v_annonces_full[categorie_prix] = "Moyen"),
+    [Total Annonces]
+)
+
+% Élevé =
+DIVIDE(
+    CALCULATE([Total Annonces], v_annonces_full[categorie_prix] = "Élevé"),
+    [Total Annonces]
+)
+
+% Luxe =
+DIVIDE(
+    CALCULATE([Total Annonces], v_annonces_full[categorie_prix] = "Luxe"),
+    [Total Annonces]
+)
+
+// ── Prix moyen mensuel vs journalier
+Prix Moyen Mensuel =
+CALCULATE([Prix Moyen], v_annonces_full[prix_type] = "mensuel")
+
+Prix Moyen Journalier =
+CALCULATE([Prix Moyen], v_annonces_full[prix_type] = "journalier")
+
+// ── Indice de cherté relatif (ville vs national)
+Indice Cherté =
+DIVIDE(
+    [Prix Moyen par m2],
+    CALCULATE([Prix Moyen par m2], ALL(v_annonces_full[ville]))
+)

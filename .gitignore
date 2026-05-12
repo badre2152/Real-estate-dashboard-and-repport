@@ -1,0 +1,19 @@
+# Power BI cache files
+*.pbix.lock
+.powerbi/
+
+# Data files (ne pas versionner les données réelles)
+data/raw/
+data/samples/*.csv
+data/samples/*.json
+
+# Environment
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

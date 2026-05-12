@@ -1,0 +1,57 @@
+// ============================================================
+// DAX MEASURES — Dashboard 4 : Analyse des Tendances
+// Colonnes temps : date_jour, annee, trimestre, mois
+// ============================================================
+
+// ── Annonces YTD (Year-to-Date)
+Annonces YTD =
+CALCULATE(
+    [Total Annonces],
+    DATESYTD(v_annonces_full[date_jour])
+)
+
+// ── Prix moyen YTD
+Prix Moyen YTD =
+CALCULATE(
+    [Prix Moyen],
+    DATESYTD(v_annonces_full[date_jour])
+)
+
+// ── Évolution prix YoY (Year-over-Year)
+Évolution Prix YoY =
+VAR prix_actuel = [Prix Moyen]
+VAR prix_n1 =
+    CALCULATE([Prix Moyen], DATEADD(v_annonces_full[date_jour], -1, YEAR))
+RETURN
+    DIVIDE(prix_actuel - prix_n1, prix_n1)
+
+// ── Évolution volume annonces YoY
+Évolution Volume YoY =
+VAR vol_actuel = [Total Annonces]
+VAR vol_n1 =
+    CALCULATE([Total Annonces], DATEADD(v_annonces_full[date_jour], -1, YEAR))
+RETURN
+    DIVIDE(vol_actuel - vol_n1, vol_n1)
+
+// ── Moyenne mobile 3 mois (prix)
+Prix Moyenne Mobile 3M =
+AVERAGEX(
+    DATESINPERIOD(
+        v_annonces_full[date_jour],
+        LASTDATE(v_annonces_full[date_jour]),
+        -3,
+        MONTH
+    ),
+    [Prix Moyen]
+)
+
+// ── Annonces par trimestre
+Annonces par Trimestre =
+CALCULATE(
+    [Total Annonces],
+    DATESQTD(v_annonces_full[date_jour])
+)
+
+// ── Label période (pour les axes)
+// Créer une colonne calculée dans Power Query :
+// Période = Text.From([annee]) & " T" & Text.From([trimestre])

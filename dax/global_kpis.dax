@@ -1,0 +1,51 @@
+// ============================================================
+// DAX MEASURES — Dashboard 1 : Vue Globale du Marché
+// Table source : v_annonces_full (bi_schema)
+// ============================================================
+
+// ── Nombre total d'annonces
+Total Annonces =
+COUNTROWS(v_annonces_full)
+
+// ── Nombre d'annonces mensuelles uniquement
+Total Annonces Mensuel =
+CALCULATE(
+    [Total Annonces],
+    v_annonces_full[prix_type] = "mensuel"
+)
+
+// ── Prix moyen global
+Prix Moyen =
+AVERAGE(v_annonces_full[prix])
+
+// ── Prix médian
+Prix Médian =
+MEDIAN(v_annonces_full[prix])
+
+// ── Surface moyenne (m²)
+Surface Moyenne =
+AVERAGE(v_annonces_full[surface_m2])
+
+// ── Prix moyen par m²
+Prix Moyen par m2 =
+AVERAGE(v_annonces_full[prix_par_m2])
+
+// ── Nombre de villes distinctes
+Nb Villes =
+DISTINCTCOUNT(v_annonces_full[ville])
+
+// ── Nombre de quartiers connus
+Nb Quartiers Connus =
+CALCULATE(
+    DISTINCTCOUNT(v_annonces_full[quartier]),
+    v_annonces_full[quartier_known] = TRUE
+)
+
+// ── Taux de croissance des annonces (MoM)
+Croissance Annonces MoM =
+VAR mois_actuel =
+    CALCULATE([Total Annonces], DATESMTD(v_annonces_full[date_jour]))
+VAR mois_precedent =
+    CALCULATE([Total Annonces], DATEADD(v_annonces_full[date_jour], -1, MONTH))
+RETURN
+    DIVIDE(mois_actuel - mois_precedent, mois_precedent)
