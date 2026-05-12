@@ -1,10 +1,29 @@
 # 📊 Avito Real Estate — BI Dashboard
 
-[![PowerBI](https://img.shields.io/badge/Power%20BI-2.136%2B-F2C811?style=flat&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
+[![PowerBI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 > Tableau de bord interactif pour l'analyse du marché immobilier marocain — construit sur le BI Schema du pipeline [real-estate-pipeline](https://github.com/badre2152/real-estate-pipeline).
+
+---
+
+## 🔗 Ecosystem
+
+Ce dashboard fait partie d'un projet data end-to-end :
+
+| Repo | Rôle | Lien |
+|------|------|------|
+| ⚙️ **real-estate-pipeline** | Upstream — Scraping → ETL → PostgreSQL | [badre2152/real-estate-pipeline](https://github.com/badre2152/real-estate-pipeline) |
+| 📊 **avito-dashboards-and-repports** *(ce repo)* | Downstream — Power BI Dashboards & Reports | — |
+
+```
+real-estate-pipeline
+    └──> PostgreSQL (bi_schema)
+              └──> avito-dashboards-and-repports
+```
+
+> ⚠️ Ce repo nécessite que le pipeline upstream soit lancé pour alimenter la base de données.
 
 ---
 
@@ -65,27 +84,13 @@ real-estate-bi-dashboard/
 ├── data/
 │   └── samples/                     # Données d'exemple (anonymisées)
 ├── docs/
-│   ├── architecture.md              # Documentation technique
-│   └── bi_schema_ddl.sql            # Schéma DDL PostgreSQL
+│   └── architecture.md              # Documentation technique
 ├── screenshots/
 │   └── *.png                        # Captures des dashboards
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
-├── LICENSE
 └── README.md
 ```
-
----
-
-## ⚙️ Prérequis
-
-| Outil | Version minimale | Notes |
-|-------|-----------------|-------|
-| Power BI Desktop | **2.136** (December 2024) | Requis pour les DAX measures utilisées |
-| PostgreSQL | 13+ | Via le pipeline real-estate-pipeline |
-| Docker | 20+ | Pour lancer la base localement |
-
-> ⚠️ Les versions antérieures à December 2024 de Power BI peuvent ne pas supporter certaines fonctions DAX utilisées dans ce projet.
 
 ---
 
@@ -93,8 +98,8 @@ real-estate-bi-dashboard/
 
 1. Ouvrir Power BI Desktop
 2. **Obtenir des données** → PostgreSQL
-3. Serveur : `localhost:5432` ⚠️ (port mappé par Docker)
-4. Base : `bad_2152_avito`
+3. Serveur : `localhost:5433` ⚠️ (port mappé par Docker)
+4. Base : `real_estate_db`
 5. Importer uniquement les tables du schéma `bi_schema`
 
 > ⚠️ Ne pas importer `ml_schema` — réservé au Machine Learning.
@@ -113,6 +118,14 @@ Tous les dashboards supportent les filtres croisés suivants :
 
 ---
 
+## ⚙️ Prérequis
+
+- Power BI Desktop (dernière version)
+- Accès à PostgreSQL (`bi_schema`) — via le pipeline [real-estate-pipeline](https://github.com/badre2152/real-estate-pipeline)
+- Docker (pour lancer la base de données localement)
+
+---
+
 ## 🚀 Démarrage Rapide
 
 ```bash
@@ -126,24 +139,6 @@ open powerbi/real_estate_dashboard.pbix
 # 3. Mettre à jour la connexion si nécessaire
 # Fichier → Options → Paramètres de la source de données
 ```
-
----
-
-## 🤝 Contribuer
-
-Consultez [CONTRIBUTING.md](./CONTRIBUTING.md) pour les conventions de nommage DAX, le processus de Pull Request, et les guidelines de contribution.
-
----
-
-## 📝 Changelog
-
-Voir [CHANGELOG.md](./CHANGELOG.md) pour l'historique des versions.
-
----
-
-## 📄 Licence
-
-Ce projet est sous licence MIT — voir [LICENSE](./LICENSE) pour les détails.
 
 ---
 
