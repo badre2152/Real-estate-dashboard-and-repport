@@ -15,7 +15,7 @@ Ce dashboard fait partie d'un projet data end-to-end :
 | Repo | Rôle | Lien |
 |------|------|------|
 | ⚙️ **real-estate-pipeline** | Upstream : Scraping → ETL → PostgreSQL | [badre2152/real-estate-pipeline](https://github.com/badre2152/real-estate-pipeline) |
-| 📊 **Real-estate-dashboard-and-repport** *(ce repo)* | Downstream : Power BI Dashboards & Reports | : |
+| 📊 **Real-estate-dashboard-and-repport** *(ce repo)* | Downstream: Power BI Dashboards & Reports | [Repository](https://github.com/badre2152/Real-estate-dashboard-and-repport) |
 
 ```
 real-estate-pipeline
