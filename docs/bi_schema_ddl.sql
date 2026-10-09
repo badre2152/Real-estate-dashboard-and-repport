@@ -1,5 +1,5 @@
 -- ============================================================
--- BI Schema DDL — real-estate-bi-dashboard
+-- BI Schema DDL: real-estate-bi-dashboard
 -- Source: real-estate-pipeline/src/warehouse/bi_schema.py
 -- Database: bad_2152_avito
 -- ============================================================
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS bi_schema.dim_caracteristiques (
     nb_salles_bain      BIGINT,
     etage               TEXT NOT NULL DEFAULT ''
 );
--- Note: annee_construction / age_bien supprimés (FIX #Q2 — toujours NULL sur Avito)
+-- Note: annee_construction / age_bien supprimés (FIX #Q2: toujours NULL sur Avito)
 
 -- Dimension Temps
 CREATE TABLE IF NOT EXISTS bi_schema.dim_temps (
