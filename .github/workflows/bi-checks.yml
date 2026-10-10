@@ -1,0 +1,20 @@
+name: BI source checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  static-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile tests
+        run: python -m compileall -q tests
+      - name: Validate DAX exports and schema references
+        run: python -m unittest discover -s tests -p "test_*.py" -v
